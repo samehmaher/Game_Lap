@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_lap/Screens/login_screen.dart';
 import 'package:game_lap/Screens/splash_screen.dart';
-void main(){
+main(){
   runApp(Home());
 }
 
