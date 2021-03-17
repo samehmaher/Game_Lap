@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "97492261148",
+    "project_id": "gamelap",
+    "storage_bucket": "gamelap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97492261148:android:b998eff04b96e23c9a82d9",
+        "android_client_info": {
+          "package_name": "com.example.game_lap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97492261148-qq6bohevoceo1f99grr1q4o3dom3bm0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKdUOhu-D7GwA0KfDQs0d_FkF1qtveYrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97492261148-qq6bohevoceo1f99grr1q4o3dom3bm0e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

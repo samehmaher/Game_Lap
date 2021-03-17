@@ -7,10 +7,12 @@ import 'package:connectivity/connectivity.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:game_lap/component/social_icon.dart';
+import 'get_started.dart';
 
 // import 'get_started.dart';
 
 class LogInScreen extends StatefulWidget {
+
   @override
   _LogInScreenState createState() => _LogInScreenState();
 }
@@ -18,7 +20,7 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   String password, email;
   var spinner = false;
-  // var _auth = FirebaseAuth.instance;
+  var _auth = FirebaseAuth.instance;
   var _emailController = TextEditingController();
   var _passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
@@ -42,7 +44,7 @@ class _LogInScreenState extends State<LogInScreen> {
           child: ListView(
             children: [
               Form(
-                   key: _formKey,
+                  key: _formKey,
                   child: Column(
                     children: [
                       Container(
@@ -66,6 +68,8 @@ class _LogInScreenState extends State<LogInScreen> {
                         style: TextStyle(color: Colors.white),
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: TextStyle(color: Colors.white),
                           hintText: 'Enter your Email',
                           hintStyle: TextStyle(color: Colors.white),
                           contentPadding: EdgeInsets.symmetric(
@@ -89,7 +93,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 8.0,
+                        height: 20.0,
                       ),
                       TextFormField(
                         controller: _passwordController,
@@ -102,6 +106,8 @@ class _LogInScreenState extends State<LogInScreen> {
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
                         decoration: InputDecoration(
+                          labelText: 'Password',
+                          labelStyle: TextStyle(color: Colors.white),
                           hintText: 'Enter your Password',
                           hintStyle: TextStyle(color: Colors.white),
                           contentPadding: EdgeInsets.symmetric(
@@ -125,15 +131,14 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 8.0,
+                        height: 15.0,
                       ),
                       InkWell(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      ForgetPassword()));
+                                  builder: (context) => ForgetPassword()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -158,66 +163,57 @@ class _LogInScreenState extends State<LogInScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
                           elevation: 5.0,
                           child: MaterialButton(
-                            // onPressed: () async {
-                            //   if (_formKey.currentState.validate()) {
-                            //     var connectivityResult =
-                            //         await (Connectivity().checkConnectivity());
-                            //     if (connectivityResult !=
-                            //             ConnectivityResult.mobile &&
-                            //         connectivityResult !=
-                            //             ConnectivityResult.wifi) {
-                            //       Scaffold.of(context).showSnackBar(
-                            //         SnackBar(
-                            //           content: Text('No Internet Connection'),
-                            //           backgroundColor: Colors.red,
-                            //           duration: Duration(seconds: 5),
-                            //         ),
-                            //       );
-                            //     } else {
-                            //       try {
-                            //         setState(() {
-                            //           spinner = true;
-                            //         });
-                            //         _emailController.clear();
-                            //         _passwordController.clear();
-                            //         await _auth.signInWithEmailAndPassword(
-                            //             email: email, password: password);
-                            //         Navigator.push(
-                            //             context,
-                            //             MaterialPageRoute(
-                            //                 builder: (context) =>
-                            //                     GetStartedScreen()));
-                            //         setState(() {
-                            //           spinner = false;
-                            //         });
-                            //       } catch (e) {
-                            //         setState(() {
-                            //           spinner = false;
-                            //         });
-                            //         if (e is FirebaseAuthException) {
-                            //           if (e.code == 'user-not-found') {
-                            //             Scaffold.of(context).showSnackBar(
-                            //               SnackBar(
-                            //                 content: Text('user not found'),
-                            //                 backgroundColor: Colors.red,
-                            //                 duration: Duration(seconds: 5),
-                            //               ),
-                            //             );
-                            //           } else if (e.code == 'wrong-password') {
-                            //             Scaffold.of(context).showSnackBar(
-                            //               SnackBar(
-                            //                 content: Text('wrong password'),
-                            //                 backgroundColor: Colors.red,
-                            //                 duration: Duration(seconds: 5),
-                            //               ),
-                            //             );
-                            //           }
-                            //         }
-                            //       }
-                            //     }
-                            //   }
-                            //   //Implement login functionality.
-                            // },
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                var connectivityResult =
+                                    await (Connectivity().checkConnectivity());
+                                if (connectivityResult !=
+                                        ConnectivityResult.mobile &&
+                                    connectivityResult !=
+                                        ConnectivityResult.wifi) {
+                                  Scaffold.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('No Internet Connection'),
+                                      backgroundColor: Colors.red,
+                                      duration: Duration(seconds: 5),
+                                    ),
+                                  );
+                                } else {
+                                  try {
+                                    _emailController.clear();
+                                    _passwordController.clear();
+                                    await _auth.signInWithEmailAndPassword(
+                                        email: email, password: password);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                GetStartedScreen(email: email,)));
+                                  } catch (e) {
+                                    if (e is FirebaseAuthException) {
+                                      if (e.code == 'user-not-found') {
+                                        Scaffold.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('user not found'),
+                                            backgroundColor: Colors.red,
+                                            duration: Duration(seconds: 5),
+                                          ),
+                                        );
+                                      } else if (e.code == 'wrong-password') {
+                                        Scaffold.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('wrong password'),
+                                            backgroundColor: Colors.red,
+                                            duration: Duration(seconds: 5),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                              //Implement login functionality.
+                            },
                             minWidth: double.infinity,
                             height: 42.0,
                             child: Text(
@@ -255,12 +251,11 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                           ),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          SignUpScreen()));
+                                      builder: (context) => SignUpScreen()));
                             },
                             child: Text(
                               'Sign Up ',
@@ -277,22 +272,19 @@ class _LogInScreenState extends State<LogInScreen> {
                               color: Colors.white,
                             ),
                           ),
-
                         ],
-
                       ),
                       SizedBox(
                         height: 24.0,
                       ),
                       Text(
                         'By creating an account, you agree to our\n Terms of Service and Privacy Policy',
-                        textAlign:TextAlign.center ,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,
                         ),
                       ),
-
                     ],
                   ))
             ],
