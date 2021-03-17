@@ -1,4 +1,4 @@
-# game_lap
+# Game Lap
 
 A new Flutter application.
 
